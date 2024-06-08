@@ -1,8 +1,9 @@
 import React from 'react';
 import BasicScreen from './BasicScreen';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { useLocation } from 'react-router-dom';
-import {  Radio, RadioGroup, FormControlLabel, Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 interface propState {
     initialTimer: string;
@@ -12,10 +13,11 @@ interface propState {
 const Tracking: React.FC = () => {
     const [timer, setTimer] = React.useState(0);
     const [intervalId, setIntervalId] = React.useState<NodeJS.Timeout | null>(null);
+    //const [distance, setDistance] = React.useState(0);
     const location = useLocation();
     const state = location.state as propState;
     const initialTimer = dayjs(state.initialTimer);
-    const typeTracking = state.typeTracking;
+    //const typeTracking = state.typeTracking;
 
     React.useEffect(() => {
         if (!initialTimer)
@@ -66,9 +68,44 @@ const Tracking: React.FC = () => {
 
     return (
         <BasicScreen name="Go to the Chopper">
-            <Typography variant="h4" style={{ marginTop: '20px' }}>
-                {formatTime(timer)}
-            </Typography>
+            <Box sx={{ flexGrow: 1 }} >
+                <Grid container spacing={2} direction="column" justifyContent="center" alignItems="center">
+                    <Grid item xs={12} >
+                        <Typography variant="h2" style={{ marginTop: '20px' }}>
+                            ZOMBIE STATUS
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant="h4" style={{ marginTop: '20px' }}>
+                            {"Timer: "+formatTime(timer)}
+                        </Typography>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={0} direction="row" sx={{textAlign:"center"}}>
+                    <Grid item xs={6}>
+                        <Typography variant="h4" style={{ marginTop: '20px' }}>
+                            {"Distance: "+formatTime(timer)}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Typography variant="h4" style={{ marginTop: '20px' }}>
+                            {"Your pace: "+formatTime(timer)}
+                        </Typography>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={2} direction="row" sx={{textAlign:"center", marginTop: "30px"}}>
+                    <Grid item xs={6}>
+                        <Button variant="contained" color="primary" onClick={stopTimer}>
+                            Pause
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Button variant="contained" color="primary" onClick={stopTimer}>
+                            Stop
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Box>
         </BasicScreen>
     );
 };
