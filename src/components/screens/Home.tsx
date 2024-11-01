@@ -29,6 +29,12 @@ const Home: React.FC = () => {
             return;
         }
 
+        //Check if the time is set
+        if (time === "") {
+            alert("Please select the time");
+            return;
+        }
+
         setOpen(false);
         navigate('/tracking', 
         { state: { initialTimer: time, typeTracking: typeTracking } });
