@@ -23,7 +23,18 @@ const Home: React.FC = () => {
         setTime(newValue ? newValue.toString() : "");
     };
 
-    const handleClose = () => {
+    const handleClose = (isSubmit: number) => {
+        if (isSubmit === 0) {
+            setOpen(false);
+            return;
+        }
+
+        //Check if the time is set
+        if (time === "") {
+            alert("Please select the time");
+            return;
+        }
+
         setOpen(false);
         navigate('/tracking', 
         { state: { initialTimer: time, typeTracking: typeTracking } });
@@ -47,7 +58,7 @@ const Home: React.FC = () => {
             </Box>
             <BasicModal
             status={open}
-            handleClose={handleClose}>
+            handleClose={() => handleClose(0)}>
                 <Box>
                     <Typography variant="h6">Select the type of tracking</Typography>
                     <RadioGroup name="trackingType" value={typeTracking} onChange={handleTypeTrackingChange}>
@@ -59,8 +70,12 @@ const Home: React.FC = () => {
                     <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'center' }}>
                         <TimePicker views={['minutes', 'seconds']} format="mm:ss" onChange={handleTimeChange} />
                     </div>
+                    {/*you cannot call {handleClose(param)} directly in JSX because it will execute the 
+                    function immediately when the component renders, rather than when the event occurs. 
+                    You need to use an arrow function {() => handleClose(param)} to ensure the function 
+                    is called only when the event (e.g., a button click) occurs.*/}
                     <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
-                        <Button variant="contained" color="primary" onClick={handleClose}>
+                        <Button variant="contained" color="primary" onClick={(e) => handleClose(1)}>
                             Start
                         </Button>
                     </div>
